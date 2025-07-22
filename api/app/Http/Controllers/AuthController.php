@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Services\Auth\LoginService;
-use App\Http\Resources\AuthResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +16,7 @@ class AuthController extends Controller
     {
         $data = $request->validated();
         $token = $service->run($data);
+
         return response()->json($token, 200);
     }
 
@@ -27,6 +27,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
+
         return response()->json(['message' => 'Logout realizado com sucesso.']);
     }
 }
