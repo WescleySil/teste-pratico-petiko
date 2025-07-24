@@ -17,7 +17,7 @@ class AuthController extends Controller
         $data = $request->validated();
         $token = $service->run($data);
 
-        return response()->json($token, 200);
+        return response()->json(['token' => $token], 200);
     }
 
     /**

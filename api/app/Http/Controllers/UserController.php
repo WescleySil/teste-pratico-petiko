@@ -20,8 +20,7 @@ class UserController
     public function index(IndexUserRequest $request, IndexUserService $service): ResourceCollection
     {
         $user = Auth::user();
-        $data = $request->validated();
-        $users = $service->run($user, $data);
+        $users = $service->run($user, $request->validated());
 
         return UserResource::collection($users);
     }

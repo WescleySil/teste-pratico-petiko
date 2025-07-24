@@ -24,5 +24,12 @@ class UserSeeder extends Seeder
                 'is_admin' => 1,
             ]
         );
+        User::factory()->create([
+            'name' => 'Test User',
+            'username' => 'testuser',
+            'email' => 'testuser@test.com',
+            'password' => Hash::make('12345678'),
+            'is_admin' => 0,
+        ]);
     }
 }
