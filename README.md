@@ -1,155 +1,52 @@
-# 🚀 Sistema de Gerenciamento de Tarefas e Usuários
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo"></a></p>
 
-<div align="center">
+<!-- <p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-![Tecnologias](https://skillicons.dev/icons?i=vue,ts,laravel,docker,mysql,tailwind)
+<h1 align="center">Base API Laravel</h1>
 
-</div>
+Este repositório serve como uma base robusta e padronizada para iniciar novos projetos de API com Laravel 10+. Ele inclui configurações essenciais e segue as melhores práticas para desenvolvimento de APIs escaláveis e de alta performance. -->
 
-## 📋 Sobre o Projeto
+## Estrutura do Projeto e Tecnologias
 
-Este é um sistema fullstack que combina um backend robusto em Laravel com um frontend moderno em Vue.js, oferecendo uma experiência completa de gerenciamento de tarefas e usuários.
+Este projeto é configurado com as seguintes tecnologias e padrões:
 
-### 🎯 Principais Funcionalidades
+- **PHP**: Linguagem principal, com foco em Laravel 10+.
+- **Docker Compose**: Para ambientes de desenvolvimento padronizados e reprodutíveis (incluindo Nginx, PHP-FPM, MySQL, Redis).
+- **PestPHP**: Framework de testes para PHP (unitários e de feature).
 
-- ✨ Interface moderna e responsiva com Tailwind CSS
-- 👥 Gerenciamento completo de usuários
-- ✅ Sistema de tarefas com filtros avançados
-- 🔍 Busca e filtros em tempo real
-- 🔐 Autenticação segura
+## Requisitos
 
-## 🛠️ Tecnologias Utilizadas
+- Docker
+- Docker Compose
+- Git
 
-### Backend
+## Primeiros Passos
 
-- 🏗️ Laravel (PHP)
-- 🎲 MySQL
-- 🐳 Docker
-- 📝 API RESTful
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente local:
 
-### Frontend
+1. **Clone o repositório:**
 
-- ⚡ Vue.js 3
-- 📘 TypeScript
-- 🎨 Tailwind CSS
-- 🔄 Vue Router
+   ```bash
+   git clone <URL_DO_SEU_REPOSITORIO>
+   cd base-api
+   ```
 
-## 🚀 Como Executar o Projeto
+2. **Inicie os serviços Docker:**
 
-### Pré-requisitos
+   ```bash
+   docker compose up -d --build
+   ```
 
-- 🐳 Docker e Docker Compose
-- 📦 Git
+   Isso irá construir as imagens (se necessário) e iniciar os contêineres para Nginx, PHP-FFPM, MySQL e Redis.
+   Após o processo de criação dos conteineres, o script shell é executado e já deixa o ambiente todo pronto,
+   desde copiar o env exemplo a iniciar o supervisor para rodar as queues.
 
-### 🔧 Instalação
 
-1. **Clone o repositório**
+4. **Acesse a aplicação:**
 
-```bash
-git clone https://github.com/WescleySil/teste-pratico-petiko.git
-cd teste-pratico-petiko
-```
-
-2. **Backend (API)**
-
-```bash
-cd api
-docker-compose up -d
-```
-
-> ⚠️ Aguarde alguns instantes para que o container do Laravel configure tudo automaticamente
-
-3. **Frontend**
-
-```bash
-cd ../front
-docker-compose up -d
-```
-
-### 📍 Acessando o Sistema
-
-- 🔗 Frontend: http://localhost:5173
-- 🔗 API: http://localhost:8000
-
-## 🧪 Executando os Testes
-
-O projeto inclui testes automatizados para garantir a qualidade do código. Para executar os testes:
-
-```bash
-# Acesse o container do Laravel
-docker exec -it laravel bash
-
-# Execute todos os testes
-php artisan test
-
-# ou para ver os testes com mais detalhes
-php artisan test --testdox
-```
-
-Os testes incluem:
-- ✅ Testes de Feature para APIs
-- ✅ Testes de autenticação
-- ✅ Testes de CRUD de usuários e tarefas
-
-> 💡 Os testes são executados em um banco de dados separado para não afetar seus dados de desenvolvimento
-
-## 🌐 Estrutura do Projeto
-
-```
-teste-pratico-petiko/
-├── api/                # Backend Laravel
-│   ├── app/
-│   ├── database/
-│   ├── tests/         # Testes automatizados
-│   └── routes/
-└── front/             # Frontend Vue.js
-    ├── src/
-    ├── components/
-    └── views/
-```
-
-## 🎮 Usando o Sistema
-
-1. 🚪 Acesse o sistema através do navegador: http://localhost:5173
-
-### 🔑 Credenciais de Acesso
-
-#### Usuário Administrador
-
-- 📧 Email: admin@admin.com
-- 🔒 Senha: 12345678
-- 👤 Username: admin
-
-#### Usuário Padrão
-
-- 📧 Email: testuser@test.com
-- 🔒 Senha: 12345678
-- 👤 Username: testuser
-
-2. 📝 Gerencie usuários e tarefas através da interface intuitiva
-3. 🔍 Use os filtros para encontrar informações específicas
-4. ✨ Aproveite a experiência fluida e responsiva
-
-## 🚀 Implementações Futuras Planejadas
-
-### 📤 Importação em Massa de Tarefas
-- 📋 Sistema de importação via CSV com layout padronizado
-- 🔄 Job assíncrono para processamento das importações
-- 📝 Template CSV disponível para download
-- 📊 Relatório de sucesso/falha na importação
-
-### 🔔 Sistema de Notificações
-- 📅 Notificações automáticas para tarefas vencidas
-- 🎯 Implementação usando Laravel Events e Listeners
-- 📨 Endpoint dedicado para gerenciamento de notificações
-- 📱 Interface em tempo real para visualização de notificações
-
-> ℹ️ Estas funcionalidades foram planejadas mas não implementadas devido a restrições de tempo do projeto.
-
----
-
-<div align="center">
-
-⭐️ Feito com 💙 por [Wescley Silva](https://github.com/WescleySil) ⭐️
-
-</div>
+   A API estará disponível em `http://localhost`.
