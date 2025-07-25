@@ -8,11 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -20,7 +15,15 @@ class TaskResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
+            'due_date' => Carbon::parse($this->due_date)->format('d-m-Y H:i'),
+            'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i'),
+            'user_id' => $this->user_id,
+            'user' => $this->whenLoaded('user', [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'username' => $this->user->username,
+                'email' => $this->user->email,
+            ]),
         ];
     }
 }

@@ -10,6 +10,7 @@ Route::post('/user', [UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::put('/{user}', [UserController::class, 'update']);
@@ -22,5 +23,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{task}', [TaskController::class, 'update']);
         Route::delete('/{task}', [TaskController::class, 'destroy']);
     });
-
 });

@@ -17,8 +17,14 @@ class StoreTaskService
     public function run(array $data): Task
     {
         $data['status'] = 'pending';
+
+        if (empty($data['user_id'])) {
+            $data['user_id'] = auth()->id();
+        }
+
         $user = User::find($data['user_id']);
 
-        return $user->tasks()->create($data);
+        $task = $user->tasks()->create($data);
+        return $task->load('user');
     }
 }

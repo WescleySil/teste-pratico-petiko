@@ -24,13 +24,13 @@ class IndexTaskService
         }
 
         $query->when($title, function ($query) use ($title) {
-            $query->where('title', 'like', '%'.$title.'%');
+            $query->where('title', 'like', '%' . $title . '%');
         });
 
         $query->when($status, function ($query) use ($status) {
             $query->where('status', $status);
         });
 
-        return $query->get();
+        return $query->with('user')->get();
     }
 }

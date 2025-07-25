@@ -7,9 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Regras de validação para login.
-     */
+
     public function rules(): array
     {
         return [
@@ -18,9 +16,7 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    /**
-     * Validação customizada após as regras principais.
-     */
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {

@@ -37,16 +37,17 @@ services:
             - dbdata:/var/lib/mysql
         networks:
             - laravel
+
     mysql_testing:
         image: mysql:8.0
-        container_name: db
+        container_name: db_desting
         ports:
             - "3308:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: todo_list
         volumes:
-            - dbdata:/var/lib/mysql
+            - dbdata_testing:/var/lib/mysql
         networks:
             - laravel
 
@@ -61,6 +62,7 @@ services:
 
 volumes:
     dbdata:
+    dbdata_testing:
 
 networks:
     laravel:

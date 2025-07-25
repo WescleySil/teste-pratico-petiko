@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import BaseInput from '../components/ui/BaseInput.vue'
 import BaseButton from '../components/ui/BaseButton.vue'
 import { authService } from '../services/auth'
 
 const router = useRouter()
+const route = useRoute()
 
 const form = ref({
   login: '',
@@ -31,20 +32,16 @@ const handleLogin = async () => {
       password: form.value.password
     })
 
-    // Salvar token no localStorage
     localStorage.setItem('auth_token', response.token)
+    localStorage.setItem('current_user', JSON.stringify(response.user))
     
-    // Redirecionar para dashboard ou página principal
-    router.push('/dashboard')
+    const redirectPath = route.query.redirect as string || '/dashboard'
+    router.push(redirectPath)
     
-    console.log('Login realizado com sucesso:', response.user)
-  } catch (error: any) {
-    console.error('Erro no login:', error)
-    
-    if (error.response?.status === 401) {
-      errorMessage.value = 'Credenciais inválidas. Verifique seu usuário e senha.'
-    } else if (error.response?.data?.message) {
-      errorMessage.value = error.response.data.message
+
+  } catch (error: any) {  
+    if (error.message) {
+      errorMessage.value = error.message
     } else {
       errorMessage.value = 'Erro interno do servidor. Tente novamente.'
     }
@@ -59,7 +56,6 @@ const handleLogin = async () => {
     <div class="w-full max-w-md p-10 border shadow-xl bg-cozy-100 rounded-2xl border-cozy-200">
       <h1 class="mb-8 text-3xl font-bold text-center text-gray-800">Login</h1>
       
-      <!-- Mensagem de erro -->
       <div v-if="errorMessage" class="mb-4 p-3 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg">
         {{ errorMessage }}
       </div>

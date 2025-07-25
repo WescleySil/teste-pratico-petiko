@@ -11,8 +11,8 @@ class UpdateUserRequest extends FormRequest
         $userId = $this->route('user')->id ?? null;
         $rules = [
             'name' => ['string'],
-            'username' => ['string', 'unique:users,username,'.$userId],
-            'email' => ['email', 'unique:users,email,'.$userId],
+            'username' => ['string', 'unique:users,username,' . $userId],
+            'email' => ['email', 'unique:users,email,' . $userId],
             'password' => ['string', 'min:8'],
         ];
         if ($this->user()->is_admin) {

@@ -31,24 +31,32 @@ const handleRegister = async () => {
   errorMessage.value = ''
 
   try {
-    const response = await authService.register({
+    const registerResponse = await authService.register({
       name: form.value.name,
       username: form.value.username,
       email: form.value.email,
       password: form.value.password
     })
 
-    localStorage.setItem('auth_token', response.token)
+
+
+    const loginResponse = await authService.login({
+      login: form.value.username, // Use username for login
+      password: form.value.password
+    })
+
+    localStorage.setItem('auth_token', loginResponse.token)
+    localStorage.setItem('current_user', JSON.stringify(loginResponse.user))
+    
     router.push('/dashboard')
     
-    console.log('Cadastro realizado com sucesso:', response.user)
+
   } catch (error: any) {
-    console.error('Erro no cadastro:', error)
+
     
     if (error.response?.data?.message) {
       errorMessage.value = error.response.data.message
     } else if (error.response?.data?.errors) {
-      // Tratar erros de validação do Laravel
       const errors = error.response.data.errors
       const firstError = Object.values(errors)[0] as string[]
       errorMessage.value = firstError[0]
@@ -66,7 +74,6 @@ const handleRegister = async () => {
     <div class="w-full max-w-md p-10 border shadow-xl bg-cozy-100 rounded-2xl border-cozy-200">
       <h1 class="mb-8 text-3xl font-bold text-center text-gray-800">Cadastro</h1>
       
-      <!-- Mensagem de erro -->
       <div v-if="errorMessage" class="mb-4 p-3 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg">
         {{ errorMessage }}
       </div>

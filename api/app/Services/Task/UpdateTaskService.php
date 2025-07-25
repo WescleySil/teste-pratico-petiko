@@ -10,6 +10,6 @@ class UpdateTaskService
     {
         $task->update($data);
 
-        return $task;
+        return $task->load('user');
     }
 }

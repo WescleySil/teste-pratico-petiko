@@ -14,7 +14,7 @@ import { computed } from 'vue'
 
 interface Props {
   type?: 'button' | 'submit' | 'reset'
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'danger'
   disabled?: boolean
 }
 
@@ -33,7 +33,8 @@ const buttonClasses = computed(() => {
   
   const variantClasses = {
     primary: 'bg-gradient-to-br from-primary-500 to-purple-600 text-white hover:shadow-lg hover:shadow-primary-500/40 hover:-translate-y-0.5',
-    secondary: 'bg-gray-50 text-gray-600 border-2 border-gray-200 hover:bg-gray-100 hover:border-gray-300'
+    secondary: 'bg-gray-50 text-gray-600 border-2 border-gray-200 hover:bg-gray-100 hover:border-gray-300',
+    danger: 'bg-gradient-to-br from-red-500 to-red-600 text-white hover:shadow-lg hover:shadow-red-500/40 hover:-translate-y-0.5'
   }
   
   const disabledClasses = 'opacity-60 cursor-not-allowed transform-none hover:transform-none hover:shadow-none'

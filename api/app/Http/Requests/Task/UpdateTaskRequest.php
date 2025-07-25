@@ -25,7 +25,8 @@ class UpdateTaskRequest extends FormRequest
         return [
             'title' => ['sometimes', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'status' => ['sometimes', 'string', Rule::in(['pending','overdue','completed'])],
+            'status' => ['sometimes', 'string', Rule::in(['pending', 'overdue', 'completed'])],
+            'due_date' => ['sometimes', 'date', 'after_or_equal:today'],
         ];
     }
 }
