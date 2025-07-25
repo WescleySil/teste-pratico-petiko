@@ -1,4 +1,5 @@
 import http from './http'
+import type { PaginationData } from '../interfaces/pagination'
 
 export interface User {
     id: number
@@ -18,9 +19,21 @@ export interface UpdateUserData {
 }
 
 class UsersService {
-    async getUsers(): Promise<User[]> {
-        const response = await http.get('/api/user')
-        return response.data.data
+    async getUsers(page: number = 1, perPage: number = 10): Promise<PaginationData> {
+        const response = await http.get<PaginationData>('/api/user', {
+            params: {
+                'filters[per_page]': perPage,
+                page: page
+            }
+        })
+        return response.data
+    }
+
+    async getUsersWithFilters(filtersData: any): Promise<PaginationData> {
+        const response = await http.get<PaginationData>('/api/user', {
+            params: filtersData
+        })
+        return response.data
     }
 
     async updateUser(userId: number, data: UpdateUserData): Promise<User> {

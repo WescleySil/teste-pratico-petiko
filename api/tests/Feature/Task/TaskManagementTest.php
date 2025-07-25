@@ -6,7 +6,6 @@ use App\Models\Task;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 
 uses(RefreshDatabase::class);
 

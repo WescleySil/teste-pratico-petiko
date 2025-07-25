@@ -12,6 +12,7 @@ class IndexTaskRequest extends FormRequest
             'filters.title' => ['nullable', 'string'],
             'filters.status' => ['nullable', 'in:pending,overdue,completed'],
             'filters.user_id' => ['nullable', 'integer', 'exists:users,id,deleted_at,NULL'],
+            'filters.per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
         ];
     }
 }

@@ -68,6 +68,18 @@
         @delete="handleDeleteTask"
       />
 
+      <BasePagination
+        v-if="paginationMeta && tasks.length > 0"
+        :current-page="paginationMeta.currentPage"
+        :last-page="paginationMeta.lastPage"
+        :per-page="paginationMeta.perPage"
+        :total="paginationMeta.total"
+        :from="paginationMeta.from"
+        :to="paginationMeta.to"
+        @page-change="handlePageChange"
+        @per-page-change="handlePerPageChange"
+      />
+
       <TaskEditModal
         :is-open="isEditModalOpen"
         :task="selectedTask"
@@ -106,10 +118,11 @@ import TaskEditModal from '../components/tasks/TaskEditModal.vue'
 import TaskCreateModal from '../components/tasks/TaskCreateModal.vue'
 import TaskDeleteModal from '../components/tasks/TaskDeleteModal.vue'
 import TaskFiltersModal from '../components/tasks/TaskFiltersModal.vue'
+import BasePagination from '../components/ui/BasePagination.vue'
 import { tasksService } from '../services/tasks'
 import { getErrorHandler } from '../utils/errorHandler'
 import type { Task } from '../interfaces/task'
-
+import type { PaginationMeta } from '../interfaces/pagination'
 import type { ApiError } from '../utils/errorHandler'
 import { getCurrentUser } from '../utils/auth'
 import { authService } from '../services/auth'
@@ -118,6 +131,9 @@ const isAdmin = ref(false)
 const tasks = ref<Task[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
+const paginationMeta = ref<PaginationMeta | null>(null)
+const currentPage = ref<number>(1)
+const perPage = ref<number>(10)
 
 const isEditModalOpen = ref(false)
 const isCreateModalOpen = ref(false)
@@ -150,7 +166,16 @@ const fetchTasks = async (): Promise<void> => {
   error.value = null
   
   try {
-    tasks.value = await tasksService.getTasks()
+    const response = await tasksService.getTasks(currentPage.value, perPage.value)
+    tasks.value = response.data
+    paginationMeta.value = {
+      currentPage: response.meta.current_page,
+      lastPage: response.meta.last_page,
+      perPage: response.meta.per_page,
+      total: response.meta.total,
+      from: response.meta.from,
+      to: response.meta.to
+    }
   } catch (err: any) {
     const errorHandler = getErrorHandler()
     
@@ -257,8 +282,10 @@ const fetchTasksWithFilters = async (): Promise<void> => {
       filters: {
         title: currentFilters.value.title || undefined,
         status: currentFilters.value.status || undefined,
-        user_id: currentFilters.value.user_id ? parseInt(currentFilters.value.user_id) : undefined
-      }
+        user_id: currentFilters.value.user_id ? parseInt(currentFilters.value.user_id) : undefined,
+        per_page: perPage.value
+      },
+      page: currentPage.value
     }
     
     Object.keys(filtersData.filters).forEach(key => {
@@ -267,7 +294,16 @@ const fetchTasksWithFilters = async (): Promise<void> => {
       }
     })
     
-    tasks.value = await tasksService.getTasksWithFilters(filtersData)
+    const response = await tasksService.getTasksWithFilters(filtersData)
+    tasks.value = response.data
+    paginationMeta.value = {
+      currentPage: response.meta.current_page,
+      lastPage: response.meta.last_page,
+      perPage: response.meta.per_page,
+      total: response.meta.total,
+      from: response.meta.from,
+      to: response.meta.to
+    }
   } catch (err: any) {
     const errorHandler = getErrorHandler()
     const apiError = err as ApiError
@@ -285,6 +321,25 @@ const fetchTasksWithFilters = async (): Promise<void> => {
 }
 
 const retryFetchTasks = async (): Promise<void> => {
+  if (hasActiveFilters.value) {
+    await fetchTasksWithFilters()
+  } else {
+    await fetchTasks()
+  }
+}
+
+const handlePageChange = async (page: number): Promise<void> => {
+  currentPage.value = page
+  if (hasActiveFilters.value) {
+    await fetchTasksWithFilters()
+  } else {
+    await fetchTasks()
+  }
+}
+
+const handlePerPageChange = async (newPerPage: number): Promise<void> => {
+  perPage.value = newPerPage
+  currentPage.value = 1
   if (hasActiveFilters.value) {
     await fetchTasksWithFilters()
   } else {

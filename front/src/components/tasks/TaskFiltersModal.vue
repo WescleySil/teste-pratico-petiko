@@ -151,7 +151,6 @@ import { ref, computed, watch } from 'vue'
 import BaseInput from '../ui/BaseInput.vue'
 import BaseButton from '../ui/BaseButton.vue'
 import { usersService, type User } from '../../services/users'
-import type { TaskStatus } from '../../interfaces/task'
 
 interface Props {
   isOpen: boolean
@@ -197,7 +196,7 @@ const fetchUsers = async (): Promise<void> => {
   loadingUsers.value = true
   try {
     const allUsers = await usersService.getUsers()
-    users.value = allUsers
+    users.value = allUsers.data
   } catch (error) {
 
     users.value = []

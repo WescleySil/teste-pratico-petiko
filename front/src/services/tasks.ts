@@ -1,5 +1,6 @@
 import http from './http'
 import type { Task, TaskResponse, SingleTaskResponse } from '../interfaces/task'
+import type { PaginationData } from '../interfaces/pagination'
 
 export interface UpdateTaskData {
     title: string
@@ -17,16 +18,21 @@ export interface CreateTaskData {
 }
 
 export const tasksService = {
-    async getTasks(): Promise<Task[]> {
-        const response = await http.get<TaskResponse>('/api/task')
-        return response.data.data
+    async getTasks(page: number = 1, perPage: number = 10): Promise<PaginationData> {
+        const response = await http.get<PaginationData>('/api/task', {
+            params: {
+                'filters[per_page]': perPage,
+                page: page
+            }
+        })
+        return response.data
     },
 
-    async getTasksWithFilters(filtersData: any): Promise<Task[]> {
-        const response = await http.get<TaskResponse>('/api/task', {
+    async getTasksWithFilters(filtersData: any): Promise<PaginationData> {
+        const response = await http.get<PaginationData>('/api/task', {
             params: filtersData
         })
-        return response.data.data
+        return response.data
     },
 
     async createTask(data: CreateTaskData): Promise<Task> {

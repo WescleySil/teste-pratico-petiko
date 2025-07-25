@@ -9,7 +9,8 @@ services:
         volumes:
             - ./:/var/www
         depends_on:
-            -   mysql
+            - mysql
+        command: ["bash", "./startup.sh"]
         networks:
             - laravel
 

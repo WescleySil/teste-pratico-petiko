@@ -1,17 +1,13 @@
 <?php
 
 use App\Models\User;
-use Pest\Laravel\assertAuthenticated;
-use Pest\Laravel\assertGuest;
-use Pest\Laravel\postJson;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-
-uses(RefreshDatabase::class);
-
+use Database\Seeders\UserSeeder;
+use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
-    $this->seed();
+    Artisan::call('db:wipe');
+    Artisan::call('migrate');
+    (new UserSeeder())->run();
 });
 
 test('admin can login with correct credentials', function () {

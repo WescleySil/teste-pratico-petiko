@@ -12,6 +12,7 @@ class IndexTaskService
         $title = $data['filters']['title'] ?? null;
         $status = $data['filters']['status'] ?? null;
         $userId = $data['filters']['user_id'] ?? null;
+        $perPage = $data['filters']['per_page'] ?? 10;
 
         $query = Task::query();
 
@@ -31,6 +32,6 @@ class IndexTaskService
             $query->where('status', $status);
         });
 
-        return $query->with('user')->get();
+        return $query->with('user')->paginate($perPage);
     }
 }

@@ -2,13 +2,15 @@
 
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
+use Database\Seeders\UserSeeder;
+use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
-    $this->seed();
+    Artisan::call('db:wipe');
+    Artisan::call('migrate');
+    (new UserSeeder())->run();
 });
+
 
 test('an admin can create a new user', function () {
     $admin = User::where('is_admin', true)->first();

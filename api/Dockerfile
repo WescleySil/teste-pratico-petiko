@@ -34,5 +34,3 @@ COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 USER $user
 
 COPY . .
-
-ENTRYPOINT ["bash", "./startup.sh"]
