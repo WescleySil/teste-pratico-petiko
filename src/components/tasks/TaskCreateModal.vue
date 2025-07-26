@@ -224,7 +224,7 @@ const fetchUsers = async (): Promise<void> => {
   try {
     const allUsers = await usersService.getUsers()
     const currentUser = getCurrentUser()
-    users.value = allUsers.filter(user => user.id !== currentUser?.id)
+    users.value = allUsers.data.filter(user => user.id !== currentUser?.id)
   } catch (error) {
 
     users.value = []
